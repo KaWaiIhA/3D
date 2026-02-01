@@ -696,4 +696,280 @@
                         <div class="blush blush-left"></div>
                         <div class="blush blush-right"></div>
                     </div>
-      
+                </div>
+            </div>
+        </div>
+
+        <!-- Question -->
+        <h1 class="question">Will you be my Valentine?</h1>
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <button class="btn btn-yes" id="yesBtn">Yes</button>
+            <button class="btn btn-no" id="noBtn">No</button>
+        </div>
+    </div>
+
+    <!-- Celebration screen -->
+    <div class="celebration" id="celebration">
+        <div class="final-message" id="finalMessage">
+            Thank you my love ❤️<br>
+            I love youuuuuu<br>
+            sooo muchhhh
+        </div>
+        <div class="dancing-bears" id="dancingBears">
+            <img src="https://i.pinimg.com/originals/8d/9c/f4/8d9cf4863d8e0e827b17e6148b9cac38.gif" alt="Dancing Babu and Dudu">
+        </div>
+        <div class="flower-garden" id="flowerGarden"></div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainContainer = document.getElementById('mainContainer');
+        const celebration = document.getElementById('celebration');
+        const background = document.getElementById('background');
+        const flowerGarden = document.getElementById('flowerGarden');
+
+        let noClickCount = 0;
+        const noTexts = ['No', 'Are you sure?', 'Really sure??', 'Positive sure?', 'Think again...', 'Last chance!'];
+        
+        let currentScale = 1;
+        let currentFontSize = 24;
+
+        // No button behavior
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            noClickCount++;
+            
+            // Add shake animation
+            noBtn.classList.add('shrinking');
+            setTimeout(() => noBtn.classList.remove('shrinking'), 300);
+            
+            // Change text
+            if (noClickCount < noTexts.length) {
+                noBtn.textContent = noTexts[noClickCount];
+            }
+            
+            // Shrink button
+            currentScale *= 0.75;
+            currentFontSize *= 0.85;
+            
+            if (currentScale < 0.15) {
+                currentScale = 0.15;
+                currentFontSize = 8;
+            }
+            
+            noBtn.style.transform = `scale(${currentScale})`;
+            noBtn.style.fontSize = `${currentFontSize}px`;
+            
+            // Move button away from cursor
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+            
+            const moveX = (Math.random() - 0.5) * 100;
+            const moveY = (Math.random() - 0.5) * 100;
+            
+            noBtn.style.position = 'relative';
+            noBtn.style.left = (parseFloat(noBtn.style.left || 0) + moveX) + 'px';
+            noBtn.style.top = (parseFloat(noBtn.style.top || 0) + moveY) + 'px';
+        });
+
+        // Yes button - trigger celebration
+        yesBtn.addEventListener('click', function() {
+            // Create sparkle burst
+            createSparkles(yesBtn);
+            
+            // Fade out main container
+            setTimeout(() => {
+                mainContainer.classList.add('hidden');
+            }, 300);
+            
+            // Change background to dark
+            setTimeout(() => {
+                background.classList.add('dark');
+            }, 500);
+            
+            // Show celebration
+            setTimeout(() => {
+                celebration.classList.add('active');
+                growFlowers();
+            }, 800);
+        });
+
+        // Create sparkle effect
+        function createSparkles(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                const angle = (Math.PI * 2 * i) / 30;
+                const distance = 50 + Math.random() * 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                sparkle.style.setProperty('--tx', tx + 'px');
+                sparkle.style.setProperty('--ty', ty + 'px');
+                sparkle.style.left = centerX + 'px';
+                sparkle.style.top = centerY + 'px';
+                
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.classList.add('active');
+                }, 10);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        }
+
+        // Grow flowers from bottom
+        function growFlowers() {
+            const flowerCount = 8;
+            const flowers = [];
+            
+            // Create SVG flowers
+            for (let i = 0; i < flowerCount; i++) {
+                const flower = createFlower();
+                const position = (i / (flowerCount - 1)) * 100;
+                flower.style.left = position + '%';
+                flower.style.transform = `translateX(-50%)`;
+                flowerGarden.appendChild(flower);
+                flowers.push(flower);
+            }
+            
+            // Create emoji flowers
+            const emojiFlowers = ['🌹', '🌷', '💐', '🌹', '🌷', '💐', '🌹', '🌷', '💐', '🌹', '🌷', '💐'];
+            const emojiElements = [];
+            
+            emojiFlowers.forEach((emoji, index) => {
+                const emojiFlower = document.createElement('div');
+                emojiFlower.className = 'emoji-flower';
+                emojiFlower.textContent = emoji;
+                const position = ((index + 0.5) / emojiFlowers.length) * 100;
+                emojiFlower.style.left = position + '%';
+                flowerGarden.appendChild(emojiFlower);
+                emojiElements.push(emojiFlower);
+            });
+            
+            // Stagger the bloom animation for SVG flowers
+            flowers.forEach((flower, index) => {
+                setTimeout(() => {
+                    flower.classList.add('blooming');
+                }, index * 100);
+            });
+            
+            // Stagger the bloom animation for emoji flowers
+            emojiElements.forEach((flower, index) => {
+                setTimeout(() => {
+                    flower.classList.add('blooming', 'sway');
+                }, index * 80 + 200);
+            });
+            
+            // Show dancing bears
+            const dancingBears = document.getElementById('dancingBears');
+            setTimeout(() => {
+                dancingBears.classList.add('active');
+            }, 1500);
+        }
+
+        // Create individual flower
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            
+            const size = 80 + Math.random() * 60;
+            const hue = 320 + Math.random() * 20; // Pink range
+            
+            flower.innerHTML = `
+                <svg width="${size}" height="${size * 1.4}" viewBox="0 0 100 140">
+                    <!-- Stem -->
+                    <path d="M 50 140 Q 48 100 50 60" 
+                          stroke="hsl(${hue - 40}, 40%, 30%)" 
+                          stroke-width="3" 
+                          fill="none"/>
+                    
+                    <!-- Leaves -->
+                    <ellipse cx="40" cy="100" rx="12" ry="20" 
+                             fill="hsl(${hue - 40}, 45%, 35%)" 
+                             transform="rotate(-30 40 100)"/>
+                    <ellipse cx="60" cy="90" rx="12" ry="20" 
+                             fill="hsl(${hue - 40}, 45%, 35%)" 
+                             transform="rotate(30 60 90)"/>
+                    
+                    <!-- Petals -->
+                    <ellipse cx="50" cy="35" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 75%)" 
+                             opacity="0.9"/>
+                    <ellipse cx="70" cy="45" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 70%)" 
+                             transform="rotate(45 70 45)" 
+                             opacity="0.9"/>
+                    <ellipse cx="75" cy="65" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 68%)" 
+                             transform="rotate(90 75 65)" 
+                             opacity="0.9"/>
+                    <ellipse cx="70" cy="85" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 70%)" 
+                             transform="rotate(135 70 85)" 
+                             opacity="0.9"/>
+                    <ellipse cx="50" cy="95" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 75%)" 
+                             transform="rotate(180 50 95)" 
+                             opacity="0.9"/>
+                    <ellipse cx="30" cy="85" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 70%)" 
+                             transform="rotate(225 30 85)" 
+                             opacity="0.9"/>
+                    <ellipse cx="25" cy="65" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 68%)" 
+                             transform="rotate(270 25 65)" 
+                             opacity="0.9"/>
+                    <ellipse cx="30" cy="45" rx="18" ry="25" 
+                             fill="hsl(${hue}, 70%, 70%)" 
+                             transform="rotate(315 30 45)" 
+                             opacity="0.9"/>
+                    
+                    <!-- Center -->
+                    <circle cx="50" cy="65" r="15" 
+                            fill="hsl(${hue + 10}, 80%, 85%)"/>
+                    <circle cx="50" cy="65" r="8" 
+                            fill="hsl(${hue + 20}, 60%, 60%)"/>
+                    
+                    <!-- Sparkles -->
+                    ${createSparklesSVG()}
+                </svg>
+            `;
+            
+            return flower;
+        }
+
+        // Create sparkles for flowers
+        function createSparklesSVG() {
+            let sparkles = '';
+            for (let i = 0; i < 8; i++) {
+                const x = 20 + Math.random() * 60;
+                const y = 30 + Math.random() * 50;
+                const size = 1 + Math.random() * 2;
+                sparkles += `<circle cx="${x}" cy="${y}" r="${size}" fill="#ffd1dc" opacity="0.8">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="${1 + Math.random()}s" repeatCount="indefinite"/>
+                </circle>`;
+            }
+            return sparkles;
+        }
+
+        // Prevent context menu on long press
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
