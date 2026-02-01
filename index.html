@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            touch-action: none;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffb3c6 50%, #ffc9d8 100%);
+            transition: all 1.5s ease;
+            z-index: 0;
+        }
+
+        .background.dark {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a14 50%, #0f0a0a 100%);
+        }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            opacity: 0.3;
+            animation: float-hearts 15s infinite;
+        }
+
+        @keyframes float-hearts {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: opacity 0.8s ease;
+        }
+
+        .container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Bears illustration */
+        .bears-container {
+            margin-bottom: 40px;
+            animation: bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .bears {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Simple cute bears using CSS */
+        .bear {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #ffffff;
+            border-radius: 50% 50% 45% 45%;
+            border: 3px solid #333;
+        }
+
+        .bear-left {
+            top: 40px;
+            left: 20px;
+            transform: rotate(-15deg);
+            animation: hug-left 2s ease-in-out infinite;
+        }
+
+        .bear-right {
+            top: 40px;
+            right: 20px;
+            transform: rotate(15deg);
+            animation: hug-right 2s ease-in-out infinite;
+        }
+
+        @keyframes hug-left {
+            0%, 100% {
+                transform: rotate(-15deg) translateX(0);
+            }
+            50% {
+                transform: rotate(-10deg) translateX(5px);
+            }
+        }
+
+        @keyframes hug-right {
+            0%, 100% {
+                transform: rotate(15deg) translateX(0);
+            }
+            50% {
+                transform: rotate(10deg) translateX(-5px);
+            }
+        }
+
+        /* Bear ears */
+        .bear::before,
+        .bear::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #ffffff;
+            border: 3px solid #333;
+            border-radius: 50%;
+            top: -8px;
+        }
+
+        .bear::before {
+            left: 8px;
+        }
+
+        .bear::after {
+            right: 8px;
+        }
+
+        /* Bear face */
+        .bear-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .eye {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 50%;
+            top: 25px;
+        }
+
+        .eye-left {
+            left: 20px;
+        }
+
+        .eye-right {
+            right: 20px;
+        }
+
+        .nose {
+            position: absolute;
+            width: 12px;
+            height: 10px;
+            background: #333;
+            border-radius: 50% 50% 50% 50%;
+            top: 38px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .blush {
+            position: absolute;
+            width: 20px;
+            height: 12px;
+            background: #ffb3c6;
+            border-radius: 50%;
+            top: 35px;
+            opacity: 0.6;
+        }
+
+        .blush-left {
+            left: 8px;
+        }
+
+        .blush-right {
+            right: 8px;
+        }
+
+        /* Floating hearts around bears */
+        .heart-float {
+            position: absolute;
+            animation: pulse-heart 1.5s ease-in-out infinite;
+        }
+
+        .heart-float svg {
+            width: 24px;
+            height: 24px;
+            fill: #ff6b9d;
+            filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
+        }
+
+        .heart-1 {
+            top: 20px;
+            left: 30px;
+            animation-delay: 0s;
+        }
+
+        .heart-2 {
+            top: 80px;
+            left: 10px;
+            animation-delay: 0.5s;
+        }
+
+        .heart-3 {
+            top: 140px;
+            left: 40px;
+            animation-delay: 1s;
+        }
+
+        .heart-4 {
+            top: 20px;
+            right: 30px;
+            animation-delay: 0.3s;
+        }
+
+        .heart-5 {
+            top: 80px;
+            right: 10px;
+            animation-delay: 0.8s;
+        }
+
+        .heart-6 {
+            top: 140px;
+            right: 40px;
+            animation-delay: 1.2s;
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Main question */
+        .question {
+            font-family: 'Pacifico', cursive;
+            font-size: 32px;
+            color: #8b2a47;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(139, 42, 71, 0.1);
+            animation: fade-in 0.8s ease 0.3s both;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            min-height: 80px;
+            animation: fade-in 0.8s ease 0.5s both;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.4);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-no:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-no.shrinking {
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px) rotate(-5deg);
+            }
+            75% {
+                transform: translateX(10px) rotate(5deg);
+            }
+        }
+
+        /* Final celebration screen */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+            padding-bottom: 80px;
+        }
+
+        .celebration.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .final-message {
+            font-family: 'Pacifico', cursive;
+            font-size: 28px;
+            color: #ffd1dc;
+            text-align: center;
+            padding: 0 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            line-height: 1.6;
+            animation: message-appear 1s ease 1.5s both;
+            position: relative;
+            z-index: 12;
+            margin-bottom: 20px;
+        }
+
+        @keyframes message-appear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Flower garden */
+        .flower-garden {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: 11;
+            pointer-events: none;
+        }
+
+        .flower {
+            position: absolute;
+            bottom: -100px;
+            opacity: 0;
+        }
+
+        .flower.blooming {
+            animation: bloom 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes bloom {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 0;
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Emoji flowers */
+        .emoji-flower {
+            position: absolute;
+            font-size: 60px;
+            bottom: -100px;
+            opacity: 0;
+            filter: drop-shadow(0 5px 15px rgba(255, 182, 193, 0.5));
+        }
+
+        .emoji-flower.blooming {
+            animation: emoji-bloom 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes emoji-bloom {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+                transform: translateX(-50%) scale(0) rotate(-180deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 0;
+                opacity: 1;
+                transform: translateX(-50%) scale(1) rotate(0deg);
+            }
+        }
+
+        .emoji-flower.sway {
+            animation: emoji-bloom 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       sway 3s ease-in-out infinite 2s;
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(-50%) rotate(-5deg);
+            }
+            50% {
+                transform: translateX(-50%) rotate(5deg);
+            }
+        }
+
+        /* Flower SVG structure */
+        .flower svg {
+            filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.6));
+        }
+
+        /* Dancing Babu and Dudu */
+        .dancing-bears {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 13;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dancing-bears.active {
+            animation: bears-appear 1s ease 2s forwards;
+        }
+
+        @keyframes bears-appear {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(50px) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        .dancing-bears img {
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+            animation: bounce-dance 0.6s ease-in-out infinite;
+        }
+
+        @keyframes bounce-dance {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd1dc;
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px #ffd1dc;
+        }
+
+        .sparkle.active {
+            animation: sparkle-burst 1s ease-out forwards;
+        }
+
+        @keyframes sparkle-burst {
+            0% {
+                opacity: 0;
+                transform: scale(0) translate(0, 0);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1) translate(var(--tx), var(--ty));
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .question {
+                font-size: 26px;
+            }
+
+            .btn {
+                font-size: 20px;
+                padding: 15px 35px;
+            }
+
+            .final-message {
+                font-size: 24px;
+            }
+
+            .bears {
+                width: 160px;
+                height: 160px;
+                transform: scale(0.9);
+            }
+
+            .dancing-bears img {
+                width: 160px;
+            }
+
+            .emoji-flower {
+                font-size: 45px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .dancing-bears img {
+                width: 140px;
+            }
+
+            .emoji-flower {
+                font-size: 40px;
+            }
+
+            .final-message {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background" id="background">
+        <!-- Floating hearts in background -->
+        <svg class="heart-bg" style="left: 10%; animation-delay: 0s;" viewBox="0 0 24 24" fill="#ff6b9d">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <svg class="heart-bg" style="left: 30%; animation-delay: 3s;" viewBox="0 0 24 24" fill="#ff6b9d">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <svg class="heart-bg" style="left: 60%; animation-delay: 7s;" viewBox="0 0 24 24" fill="#ff6b9d">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <svg class="heart-bg" style="left: 80%; animation-delay: 5s;" viewBox="0 0 24 24" fill="#ff6b9d">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+    </div>
+
+    <!-- Main container -->
+    <div class="container" id="mainContainer">
+        <!-- Bears -->
+        <div class="bears-container">
+            <div class="bears">
+                <!-- Floating hearts -->
+                <div class="heart-float heart-1">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="heart-float heart-2">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="heart-float heart-3">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="heart-float heart-4">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="heart-float heart-5">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="heart-float heart-6">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+
+                <!-- Left bear -->
+                <div class="bear bear-left">
+                    <div class="bear-face">
+                        <div class="eye eye-left"></div>
+                        <div class="eye eye-right"></div>
+                        <div class="nose"></div>
+                        <div class="blush blush-left"></div>
+                        <div class="blush blush-right"></div>
+                    </div>
+                </div>
+
+                <!-- Right bear -->
+                <div class="bear bear-right">
+                    <div class="bear-face">
+                        <div class="eye eye-left"></div>
+                        <div class="eye eye-right"></div>
+                        <div class="nose"></div>
+                        <div class="blush blush-left"></div>
+                        <div class="blush blush-right"></div>
+                    </div>
+      
