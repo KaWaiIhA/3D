@@ -382,7 +382,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             z-index: 10;
             opacity: 0;
             pointer-events: none;
@@ -507,9 +507,6 @@
 
         /* Dancing Babu and Dudu */
         .dancing-bears {
-             display: flex;
-      justify-content: center;
-      align-items: center;
             position: fixed;
             bottom: 80px;
             left: 50%;
@@ -641,7 +638,7 @@
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
     </div>
-
+    <img src="bubu.gif" alt="Dancing Babu and Dudu">
     <!-- Main container -->
     <div class="container" id="mainContainer">
         <!-- Bears -->
@@ -705,29 +702,24 @@
 
         <!-- Question -->
         <h1 class="question">Will you be my Valentine?</h1>
-        <img src="https://media1.tenor.com/m/XJ4sqEoJSS8AAAAC/love-in-love.gif" alt="Dancing Babu and Dudu">
 
         <!-- Buttons -->
         <div class="buttons">
             <button class="btn btn-yes" id="yesBtn">Yes</button>
             <button class="btn btn-no" id="noBtn">No</button>
         </div>
-        
     </div>
-    
-    
+
     <!-- Celebration screen -->
     <div class="celebration" id="celebration">
-         <div class="dancing-bears" id="dancingBears">
-            <img src="bubu.gif" alt="Dancing Babu and Dudu">
-        </div>
-        
         <div class="final-message" id="finalMessage">
             Thank you my love 3> <br>
-            Iloveyouuuuuu
+            IlovEyouuuuuu
             sooo muchhhh
         </div>
-    
+        <div class="dancing-bears" id="dancingBears">
+            <img src="https://media1.tenor.com/m/R5DEGk33-IoAAAAC/love.gif" alt="Dancing Babu and Dudu">
+        </div>
         <div class="flower-garden" id="flowerGarden"></div>
     </div>
 
@@ -740,7 +732,7 @@
         const flowerGarden = document.getElementById('flowerGarden');
 
         let noClickCount = 0;
-        const noTexts = ['No', 'Are you sure?', 'Dle ka??', 'Positive sure?', 'Think again...', 'Last chance!'];
+        const noTexts = ['No', 'Are you sure?', 'Really sure??', 'Positive sure?', 'Think again...', 'Last chance!'];
         
         let currentScale = 1;
         let currentFontSize = 24;
